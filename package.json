@@ -1,5 +1,5 @@
 {
-  "name": "site-moves",
+  "name": "kills-site",
   "version": "1.0.0",
   "description": "Server to have Porygon upload the kills history of each match.",
   "main": "server.js",
@@ -14,9 +14,6 @@
   "author": "harbar20",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.19.2",
     "express": "^4.17.1",
-    "fetch": "^1.1.0",
-    "node-fetch": "^2.6.0"
   }
 }
