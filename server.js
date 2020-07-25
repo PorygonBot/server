@@ -1,7 +1,7 @@
 const express = require('express');
 
 let app = express();
-let message = "";
+let messages = {};
 
 app.use(express.text());
 
@@ -10,11 +10,11 @@ app.get('/', function (req, res) {
 });
 
 app.post('/:id', (req, res) => {
-    message = req.body;
+    messages[req.params.id] = req.body;
     res.send({status: 200, id: req.params.id});
 });
 app.get("/:id", (req, res) => {
-    res.send(message);
+    res.send(messages[req.params.id]);
 })
 
 app.listen(3000);
