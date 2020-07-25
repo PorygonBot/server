@@ -17,4 +17,4 @@ app.get("/:id", (req, res) => {
     res.send(messages[req.params.id]);
 })
 
-app.listen(3000);
+app.listen(process.env.PORT);
