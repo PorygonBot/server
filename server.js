@@ -1,7 +1,7 @@
 const express = require('express');
+const fs = require("fs");
 
 let app = express();
-let messages = {};
 
 app.use(express.text());
 
@@ -10,11 +10,14 @@ app.get('/', function (req, res) {
 });
 
 app.post('/:id', (req, res) => {
+    let messages = JSON.parse(fs.readFileSync("messages.json"));
     messages[req.params.id] = req.body;
+    fs.writeFileSync("messages.json", JSON.stringify(messages));
     res.send({status: 200, id: req.params.id});
 });
 app.get("/:id", (req, res) => {
+    let messages = JSON.parse(fs.readFileSync("messages.json"));
     res.send(messages[req.params.id]);
 })
 
-app.listen(process.env.PORT);
+app.listen(3000);
