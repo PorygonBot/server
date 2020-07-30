@@ -1,5 +1,5 @@
 const express = require('express');
-const fs = require("fs");
+const fetch = require('node-fetch');
 
 let app = express();
 
@@ -9,15 +9,13 @@ app.get('/', function (req, res) {
 	res.send(`This is <a href="https://github.com/PorygonBot/kills-site">PorygonBot/kills-site</a> 's home.`);
 });
 
-app.post('/:id', (req, res) => {
-    let messages = JSON.parse(fs.readFileSync("messages.json"));
-    messages[req.params.id] = req.body;
-    fs.writeFileSync("messages.json", JSON.stringify(messages));
+app.post('/:id', async (req, res) => {
+    let response = await fetch(`https://jsonbase.com/PorygonBot/${req.params.id}`, {method: "POST", body: req.body});
     res.send({status: 200, id: req.params.id});
 });
-app.get("/:id", (req, res) => {
-    let messages = JSON.parse(fs.readFileSync("messages.json"));
-    res.send(messages[req.params.id]);
-})
+app.get("/:id", async (req, res) => {
+    let message = await fetch(`https://jsonbase.com/PorygonBot/${req.params.id}`);
+    res.send(message);
+});
 
 app.listen(process.env.PORT);
