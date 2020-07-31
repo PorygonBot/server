@@ -1,21 +1,35 @@
-const express = require('express');
-const fetch = require('node-fetch');
+const express = require("express");
+const request = require("request");
 
 let app = express();
 
 app.use(express.text());
 
-app.get('/', function (req, res) {
-	res.send(`This is <a href="https://github.com/PorygonBot/kills-site">PorygonBot/kills-site</a> 's home.`);
+app.get("/", function (req, res) {
+	res.send(
+		`This is <a href="https://github.com/PorygonBot/kills-site">PorygonBot/kills-site</a> 's home.`
+	);
 });
 
-app.post('/:id', async (req, res) => {
-    let response = await fetch(`https://jsonbase.com/PorygonBot/${req.params.id}`, {method: "POST", body: req.body});
-    res.send({status: 200, id: req.params.id});
+app.post("/:id", async (req, res) => {
+	let response = await request({
+		url: `https://jsonbase.com/PorygonBot/${req.params.id}`,
+		method: "PUT",
+		headers: { "content-type": "application/json" },
+		body: JSON.stringify({ msg: req.body }),
+	});
+	res.send({ status: 200, id: req.params.id });
 });
+
 app.get("/:id", async (req, res) => {
-    let message = await fetch(`https://jsonbase.com/PorygonBot/${req.params.id}`);
-    res.send(message);
+	if (req.params.id !== "favicon.ico") {
+		let message = request.get(
+			`https://jsonbase.com/PorygonBot/${req.params.id}`,
+			(err, response, body) => {
+				res.send(JSON.parse(body).msg);
+			}
+		);
+	}
 });
 
-app.listen(process.env.PORT);
+app.listen(3000);
