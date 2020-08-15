@@ -7,7 +7,7 @@ app.use(express.text());
 
 app.get("/", function (req, res) {
 	res.send(
-		`This is <a href="https://github.com/PorygonBot/kills-site">PorygonBot/kills-site</a> 's home.`
+		`This is <a href="https://github.com/PorygonBot/kills-site">PorygonBot/kills-site</a> 's home for kills histories.`
 	);
 });
 
