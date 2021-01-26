@@ -22,6 +22,7 @@ app.get("/patreon-redirect", async (req, res) => {
 	await patreonOAuthClient
 		.getTokens(code, "https://kills.porygonbot.xyz/patreon-redirect")
 		.then(async (response) => {
+			console.log(response);
 			console.log("I'm here 2!");
 
 			const patreonAPIClient = patreonAPI(response.access_token);
@@ -47,7 +48,6 @@ app.get("/patreon-redirect", async (req, res) => {
 		.catch((err) => {
 			console.log("I'm here error!");
 			console.error(err);
-			res.end(err);
 		});
 });
 
