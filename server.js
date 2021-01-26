@@ -55,14 +55,16 @@ let app = express();
 
 app.use(express.text());
 
-app.get("/", (req, res) => {
+//Home page
+app.get("/", function (req, res) {
 	res.send(
-		`This is <a href="https://github.com/PorygonBot/kills-site">PorygonBot/kills-site</a> 's home.`
+		`This is <a href="https://github.com/PorygonBot/kills-site">PorygonBot/kills-site</a> 's home for kills histories.`
 	);
 });
 
-
+//When bot posts
 app.post("/:id", async (req, res) => {
+	res.header('Access-Control-Allow-Origin', '*');
 	let response = await request({
 		url: `https://jsonbase.com/PorygonBot/${req.params.id}`,
 		method: "PUT",
@@ -72,7 +74,9 @@ app.post("/:id", async (req, res) => {
 	res.send({ status: 200, id: req.params.id });
 });
 
+//When people get
 app.get("/:id", async (req, res) => {
+	res.header('Access-Control-Allow-Origin', '*');
 	if (req.params.id !== "favicon.ico") {
 		let message = request.get(
 			`https://jsonbase.com/PorygonBot/${req.params.id}`,
