@@ -8,6 +8,10 @@ const patreonOAuthClient = patreonOAuth(
 	process.env.PATREON_CLIENT_ID,
 	process.env.PATREON_CLIENT_SECRET
 );
+let app = express();
+
+app.use(express.json());
+
 //Redirect for Patreon OAuth
 app.get("/patreon-redirect", async (req, res) => {
 	const code = req.query.code;
