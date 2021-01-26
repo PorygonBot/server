@@ -51,8 +51,6 @@ app.get("/patreon-redirect", async (req, res) => {
 		});
 });
 
-let app = express();
-
 app.use(express.text());
 
 //Home page
