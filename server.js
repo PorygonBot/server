@@ -26,7 +26,7 @@ app.get("/patreon-redirect", async (req, res) => {
 
 			const patreonAPIClient = patreonAPI(response.access_token);
 			console.log(response);
-			return patreonAPIClient("/identity");
+			return patreonAPIClient("/current_user");
 		})
 		.then(async (result) => {
 			console.log("I'm here 3!");
