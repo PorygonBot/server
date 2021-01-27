@@ -24,9 +24,17 @@ app.get("/patreon-redirect", async (req, res) => {
 		.then(async (response) => {
 			console.log("I'm here 2!");
 
-			const patreonAPIClient = patreonAPI(response.access_token);
-			console.log(response);
-			return patreonAPIClient("/current_user");
+			// const patreonAPIClient = patreonAPI(response.access_token);
+			// console.log(response);
+			// return patreonAPIClient("/current_user");
+
+			request({
+				url: "https://www.patreon.com/api/oauth2/v2/identity",
+				method: "GET",
+				"headers": {
+					"Authorization": `Bearer ${response.access_token}`
+				}
+			})
 		})
 		.then(async (result) => {
 			console.log("I'm here 3!");
