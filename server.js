@@ -17,15 +17,16 @@ app.get("/patreon-redirect", async (req, res) => {
 	const code = req.query.code;
 	const discordID = req.query.state;
 
+	console.log(code + "     " + discordID);
 	console.log("I'm here 1!");
 
 	await patreonOAuthClient
 		.getTokens(code, "https://kills.porygonbot.xyz/patreon-redirect")
 		.then(async (response) => {
 			console.log("I'm here 2!");
+			console.log(response);
 
 			const patreonAPIClient = patreonAPI(response.access_token);
-			console.log(response);
 			return patreonAPIClient("/current_user");
 		})
 		.then(async (result) => {
