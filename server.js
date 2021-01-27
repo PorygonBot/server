@@ -28,13 +28,12 @@ app.get("/patreon-redirect", async (req, res) => {
 			// console.log(response);
 			// return patreonAPIClient("/current_user");
 
-			return request({
-				url: "https://www.patreon.com/api/oauth2/v2/identity",
-				method: "GET",
-				"headers": {
+			return request.get(
+				"https://www.patreon.com/api/oauth2/v2/identity",
+				{
 					"Authorization": `Bearer ${response.access_token}`
 				}
-			})
+			)
 		})
 		.then(async (result) => {
 			console.log("I'm here 3!");
