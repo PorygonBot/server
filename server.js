@@ -28,7 +28,7 @@ app.get("/patreon-redirect", async (req, res) => {
 			// console.log(response);
 			// return patreonAPIClient("/current_user");
 
-			request({
+			return request({
 				url: "https://www.patreon.com/api/oauth2/v2/identity",
 				method: "GET",
 				"headers": {
@@ -38,6 +38,7 @@ app.get("/patreon-redirect", async (req, res) => {
 		})
 		.then(async (result) => {
 			console.log("I'm here 3!");
+			console.log(result);
 
 			const store = result.store;
 			const user = store.findAll("user").map((user) => user.serialize());
