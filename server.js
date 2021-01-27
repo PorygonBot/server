@@ -35,9 +35,10 @@ app.get("/patreon-redirect", async (req, res) => {
 				}
 			)
 		})
-		.then(async (result) => {
+		.then(async (err, result, body) => {
 			console.log("I'm here 3!");
 			console.log(result);
+			console.log(body);
 
 			const store = result.store;
 			const user = store.findAll("user").map((user) => user.serialize());
