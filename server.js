@@ -24,30 +24,28 @@ app.get("/patreon-redirect", async (req, res) => {
 		.then(async (response) => {
 			console.log("I'm here 2!");
 
-			// const patreonAPIClient = patreonAPI(response.access_token);
-			// console.log(response);
-			// return patreonAPIClient("/current_user");
+			const patreonAPIClient = patreonAPI(response.access_token);
+			console.log(response);
+			return patreonAPIClient("/current_user/campaigns");
+		})
+		.then(async (result) => {
+			console.log("I'm here 3!");
+			console.log(result);
 
-			return request.get(
-				"https://www.patreon.com/api/oauth2/v2/identity",
-				{
-					"Authorization": `Bearer ${response.access_token}`
-				},
-				(err, result, body) => {
-					console.log(body);
-					let newData = {};
-					newData[discordID] = user;
+			const store = result.store;
+			const user = store.findAll("user").map((user) => user.serialize());
+			console.log(user);
+			let newData = {};
+			newData[discordID] = user;
 
-					let response = request({
-						url: `https://jsonbase.com/PorygonBot/patreon-user`,
-						method: "PUT",
-						headers: { "content-type": "application/json" },
-						body: JSON.stringify(newData),
-					});
+			let response = await request({
+				url: `https://jsonbase.com/PorygonBot/patreon-user`,
+				method: "PUT",
+				headers: { "content-type": "application/json" },
+				body: JSON.stringify(newData),
+			});
 
-					res.end("Done, baby!");
-				}
-			)
+			res.end("Done, baby!");
 		})
 		.catch((err) => {
 			console.log("I'm here error!");
