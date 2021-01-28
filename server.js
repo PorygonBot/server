@@ -44,26 +44,26 @@ app.get("/patreon-redirect", async (req, res) => {
         fields: { member: "patron_status", user: "full_name" },
         include: "memberships",
     });
-    const userRes = request({
-        url: `https://www.patreon.com/api/oauth2/v2/identity?${newData}`,
-        method: "GET",
-        headers: {
+    const userRes = request.get(
+        `https://www.patreon.com/api/oauth2/v2/identity?${newData}`,
+        {
             Authorization: `Bearer ${access_token}`,
         },
-    });
-    console.log(userRes);
+        (err, response, body) => {
+            //Posting to JSONBase API
+            console.log(body);
+            const baseData = {};
+            baseData[discordID] = body.included[0];
+            let baseRes = request({
+                url: `https://jsonbase.com/PorygonBot/patreon-user`,
+                method: "PUT",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify(baseData),
+            });
 
-    //Posting to JSONBase API
-    const baseData = {};
-    baseData[discordID] = userRes.data.included[0];
-    let baseRes = request({
-        url: `https://jsonbase.com/PorygonBot/patreon-user`,
-        method: "PUT",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(baseData),
-    });
-
-    res.send("Done! You may now go back to Discord.");
+            res.send("Done! You may now go back to Discord.");
+        }
+    );
 });
 
 //Home page
