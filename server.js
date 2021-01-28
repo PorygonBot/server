@@ -1,6 +1,7 @@
 const express = require("express");
 const request = require("request");
 const qs = require("querystring");
+const axios = require("axios");
 
 let app = express();
 
@@ -23,13 +24,17 @@ app.get("/patreon-redirect", async (req, res) => {
         redirect_uri: "https://kills.porygonbot.xyz/patreon-redirect",
     });
     console.log(data);
-    const newRes = request({
-        url: `https://www.patreon.com/api/oauth2/token?${data}`,
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-        },
-    });
+    // const newRes = request({
+    //     url: `https://www.patreon.com/api/oauth2/token?${data}`,
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/x-www-form-urlencoded",
+    //     },
+    // });
+    const newRes = await axios.post(
+        `https://www.patreon.com/api/oauth2/token?${data}`,
+        { headers: { "Content-Type": "application/x-www-form-url" } }
+    );
     console.log(newRes);
     const access_token = newRes.data.access_token;
     console.log("Here 2");
