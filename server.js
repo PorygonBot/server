@@ -51,6 +51,7 @@ app.get("/patreon-redirect", async (req, res) => {
             Authorization: `Bearer ${access_token}`,
         },
     });
+    console.log(userRes);
 
     //Posting to JSONBase API
     const baseData = {};
