@@ -26,6 +26,7 @@ app.get("/patreon-redirect", async (req, res) => {
             Authorization: "Bearer ",
         },
     });
+    console.log(newRes);
     const access_token = newRes.data.access_token;
 
     //Making the Patreon request
