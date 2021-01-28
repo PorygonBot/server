@@ -55,7 +55,7 @@ app.get("/patreon-redirect", async (req, res) => {
             //Posting to JSONBase API
             console.log(body);
             const baseData = {};
-            baseData[discordID] = body.included[0];
+            baseData[discordID] = body.data;
             let baseRes = request({
                 url: `https://jsonbase.com/PorygonBot/patreon-user`,
                 method: "PUT",
