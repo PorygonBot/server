@@ -54,11 +54,11 @@ app.get("/patreon-redirect", async (req, res) => {
     //     }
     // );
 
-    axios
-        .get({
-            url: `https://www.patreon.com/api/oauth2/v2/identity?${newData}`,
-            headers: { Authorization: `Bearer ${access_token}` },
-        })
+    axios({
+        url: `https://www.patreon.com/api/oauth2/v2/identity?${newData}`,
+        method: "GET",
+        headers: { Authorization: `Bearer ${access_token}` },
+    })
         .then((userRes) => {
             //Posting to JSONBase API
             const baseData = {};
