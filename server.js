@@ -11,6 +11,9 @@ app.get("/patreon-redirect", async (req, res) => {
     const code = req.query.code;
     const discordID = req.query.state;
 
+    console.log(code);
+    console.log("Here 1");
+
     //Exchange Token
     const data = qs.stringify({
         code: code,
@@ -19,6 +22,7 @@ app.get("/patreon-redirect", async (req, res) => {
         client_secret: process.env.PATREON_CLIENT_SECRET,
         redirect_uri: "https://kills.porygonbot.xyz/patreon-redirect",
     });
+    console.log(data);
     const newRes = request({
         url: `https://www.patreon.com/api/oauth2/token?${data}`,
         method: "POST",
@@ -28,6 +32,7 @@ app.get("/patreon-redirect", async (req, res) => {
     });
     console.log(newRes);
     const access_token = newRes.data.access_token;
+    console.log("Here 2");
 
     //Making the Patreon request
     const newData = qs.stringify({
