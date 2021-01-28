@@ -27,7 +27,6 @@ app.get("/patreon-redirect", async (req, res) => {
         url: `https://www.patreon.com/api/oauth2/token?${data}`,
         method: "POST",
         headers: {
-            Authorization: "Bearer ",
             "Content-Type": "application/x-www-form-urlencoded",
         },
     });
