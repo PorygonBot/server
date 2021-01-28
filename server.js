@@ -47,7 +47,9 @@ app.get("/patreon-redirect", async (req, res) => {
     const userRes = request.get(
         `https://www.patreon.com/api/oauth2/v2/identity?${newData}`,
         {
-            Authorization: `Bearer ${access_token}`,
+            auth: {
+                bearer: access_token,
+            },
         },
         (err, response, body) => {
             //Posting to JSONBase API
