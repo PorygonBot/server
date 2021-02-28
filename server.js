@@ -59,12 +59,12 @@ app.get("/patreon-redirect", async (req, res) => {
 //Home page
 app.get("/", function (req, res) {
     res.send(
-        `This is <a href="https://github.com/PorygonBot/kills-site">PorygonBot/kills-site</a> 's home for kills histories.`
+        `This is <a href="https://github.com/PorygonBot/server">Porygon's general-purpose webserver</a>.`
     );
 });
 
 //When bot posts
-app.post("/:id", async (req, res) => {
+app.post("/kills/:id", async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     let response = request({
         url: `https://jsonbase.com/PorygonBot/${req.params.id}`,
@@ -76,7 +76,7 @@ app.post("/:id", async (req, res) => {
 });
 
 //When people get
-app.get("/:id", async (req, res) => {
+app.get("/kills/:id", async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
     if (req.params.id !== "favicon.ico") {
         let message = request.get(
