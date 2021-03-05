@@ -2,6 +2,7 @@ const express = require("express");
 const request = require("request");
 const qs = require("querystring");
 const axios = require("axios");
+require("dotenv").config();
 
 let app = express();
 
@@ -78,11 +79,41 @@ app.post("/kills/:id", async (req, res) => {
 //When people get
 app.get("/kills/:id", async (req, res) => {
     res.header("Access-Control-Allow-Origin", "*");
+
+    //Sending te message
     if (req.params.id !== "favicon.ico") {
         let message = request.get(
             `https://jsonbase.com/PorygonBot/${req.params.id}`,
             (err, response, body) => {
-                res.send(JSON.parse(body).msg);
+                //Separating each part of the history
+                const history = JSON.parse(body).msg.split("<br>");
+                let kills = history.filter((line) =>
+                    line.includes("was killed by")
+                );
+                let crits = history.filter((line) =>
+                    line.includes("critical hit")
+                );
+                let other = history.filter(
+                    (line) => !(kills.includes(line) || crits.includes(line))
+                );
+
+                //Making the message
+                const message = `
+                    <strong>Kills</strong>
+                    <br>
+                    ${kills.join("<br>")}
+                    <br>
+                    <br>
+                    <strong>Critical Hits</strong>
+                    <br>
+                    ${crits.join("<br>")}
+                    <br>
+                    <br>
+                    <strong>Other</strong>
+                    <br>
+                    ${other.join("<br>")}
+                `;
+                res.send(message);
             }
         );
     }
