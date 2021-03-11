@@ -93,8 +93,23 @@ app.get("/kills/:id", async (req, res) => {
                 let crits = history.filter((line) =>
                     line.includes("critical hit")
                 );
+                let misses = history.filter((line) => line.includes("missed"));
+                let statuses = history.filter((line) =>
+                    line.includes("caused")
+                );
+                let hazards = history.filter(
+                    (line) =>
+                        line.includes("Stealth Rock") || line.includes("Spikes")
+                );
                 let other = history.filter(
-                    (line) => !(kills.includes(line) || crits.includes(line))
+                    (line) =>
+                        !(
+                            kills.includes(line) ||
+                            crits.includes(line) ||
+                            misses.includes(line) ||
+                            statuses.includes(line) ||
+                            hazards.includes(line)
+                        )
                 );
 
                 //Making the message
@@ -107,6 +122,21 @@ app.get("/kills/:id", async (req, res) => {
                     <strong>Critical Hits</strong>
                     <br>
                     ${crits.join("<br>")}
+                    <br>
+                    <br>
+                    <strong>Misses</strong>
+                    <br>
+                    ${misses.join("<br>")}
+                    <br>
+                    <br>
+                    <strong>Statuses</strong>
+                    <br>
+                    ${statuses.join("<br>")}
+                    <br>
+                    <br>
+                    <strong>Hazards</strong>
+                    <br>
+                    ${hazards.join("<br>")}
                     <br>
                     <br>
                     <strong>Other</strong>
