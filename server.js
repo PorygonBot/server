@@ -148,9 +148,6 @@ app.get("/kills/:id", async (req, res) => {
             }
         );
     }
-    
-    res.send("Loading...");
-    return;
 });
 
 app.listen(process.env.PORT);
