@@ -143,12 +143,14 @@ app.get("/kills/:id", async (req, res) => {
                     <br>
                     ${other.join("<br>")}
                 `;
-                return res.send(message);
+                res.send(message);
+                return;
             }
         );
     }
     
-    return res.send("Loading...");
+    res.send("Loading...");
+    return;
 });
 
 app.listen(process.env.PORT);
