@@ -85,35 +85,39 @@ app.get("/kills/:id", async (req, res) => {
         let message = request.get(
             `https://jsonbase.com/PorygonBot/${req.params.id}`,
             (err, response, body) => {
-                //Separating each part of the history
-                const history = JSON.parse(body).msg.split("<br>");
-                let kills = history.filter((line) =>
-                    line.includes("was killed by")
-                );
-                let crits = history.filter((line) =>
-                    line.includes("critical hit")
-                );
-                let misses = history.filter((line) => line.includes("missed"));
-                let statuses = history.filter((line) =>
-                    line.includes("caused")
-                );
-                let hazards = history.filter(
-                    (line) =>
-                        line.includes("Stealth Rock") || line.includes("Spikes")
-                );
-                let other = history.filter(
-                    (line) =>
-                        !(
-                            kills.includes(line) ||
-                            crits.includes(line) ||
-                            misses.includes(line) ||
-                            statuses.includes(line) ||
-                            hazards.includes(line)
-                        )
-                );
+                if (!body.startsWith("<")) {
+                    //Separating each part of the history
+                    const history = JSON.parse(body).msg.split("<br>");
+                    let kills = history.filter((line) =>
+                        line.includes("was killed by")
+                    );
+                    let crits = history.filter((line) =>
+                        line.includes("critical hit")
+                    );
+                    let misses = history.filter((line) =>
+                        line.includes("missed")
+                    );
+                    let statuses = history.filter((line) =>
+                        line.includes("caused")
+                    );
+                    let hazards = history.filter(
+                        (line) =>
+                            line.includes("Stealth Rock") ||
+                            line.includes("Spikes")
+                    );
+                    let other = history.filter(
+                        (line) =>
+                            !(
+                                kills.includes(line) ||
+                                crits.includes(line) ||
+                                misses.includes(line) ||
+                                statuses.includes(line) ||
+                                hazards.includes(line)
+                            )
+                    );
 
-                //Making the message
-                const message = `
+                    //Making the message
+                    const message = `
                     <strong>Kills</strong>
                     <br>
                     ${kills.join("<br>")}
@@ -143,7 +147,8 @@ app.get("/kills/:id", async (req, res) => {
                     <br>
                     ${other.join("<br>")}
                 `;
-                res.send(message);
+                    res.send(message);
+                }
             }
         );
     }
